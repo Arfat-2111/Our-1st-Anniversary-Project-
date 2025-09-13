@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Anniversary My Love ❤️</title>
+<style>
+  :root{
+    --bg:#000;
+    --accent:#ff6b8a;
+    --muted:#bbbbbb;
+    --white:#ffffff;
+  }
+  html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;}
+  body{background:var(--bg);overflow:hidden;color:var(--white);}
+
+  .wrap{height:100%;display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;}
+  .card{width:100%;max-width:780px;height:calc(100vh - 60px);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;}
+
+  .slide{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity .8s ease, transform .6s ease;}
+  .hidden{opacity:0;pointer-events:none;transform:translateY(20px);}
+  .visible{opacity:1;pointer-events:auto;transform:none;}
+
+  .title{font-size:clamp(20px,4vw,30px);margin:10px 0;}
+  .typing{font-size:clamp(16px,3.5vw,22px);min-height:3.2em;white-space:pre-wrap;letter-spacing:0.2px;}
+  .cursor{display:inline-block;width:8px;background:var(--white);margin-left:6px;animation:blink 1s steps(2) infinite;vertical-align:middle;height:1em;}
+  @keyframes blink{50%{opacity:0}}
+
+  .shot{max-width:100%;max-height:60vh;border-radius:12px;box-shadow:0 8px 30px rgba(0,0,0,0.5);}
+  .caption{color:var(--muted);margin-top:12px;font-size:14px;}
+
+  .controls{position:absolute;bottom:28px;left:0;right:0;display:flex;align-items:center;justify-content:center;}
+  .btn{background:linear-gradient(90deg,var(--accent),#ff9fb2);border:0;padding:12px 20px;border-radius:999px;color:white;font-weight:600;box-shadow:0 6px 18px rgba(255,107,138,0.25);cursor:pointer;font-size:16px;}
+  .btn:active{transform:translateY(2px);}
+
+  .float-heart{position:absolute;font-size:20px;pointer-events:none;animation:floatUp linear infinite;opacity:.9;}
+  @keyframes floatUp{from{transform:translateY(40vh) scale(.6);}to{transform:translateY(-40vh) scale(1.1);opacity:0;}}
+
+  .flower{position:fixed;pointer-events:none;font-size:20px;transform-origin:center;animation:fall linear forwards;}
+  @keyframes fall{to{transform:translateY(120vh) rotate(360deg) scale(.8);opacity:0;}}
+
+  .heart-area{width:95%;max-width:680px;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .flower-heart{width:80%;max-width:520px;height:400px;position:relative;margin:0 auto;}
+  .flower-dot{position:absolute;transform:translate(-50%,-50%);width:20px;height:20px;opacity:0;transition:opacity .2s linear, transform .2s ease;}
+  .heart-center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;}
+  .heart-name{font-size:clamp(18px,4vw,30px);font-weight:700;}
+  .heart-sub{color:var(--muted);margin-top:6px;font-size:14px;}
+  .timer{margin-top:10px;font-size:clamp(18px,3vw,26px);font-weight:700;}
+  .final-msg{width:90%;max-width:640px;margin:20px auto 0;font-size:clamp(14px,3vw,18px);min-height:6em;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <!-- Slide 1 -->
+      <div id="slide1" class="slide visible">
+        <div>
+          <div class="title"><span class="typing" id="type1"></span><span class="cursor" id="cur1"></span></div>
+          <div style="height:18px"></div>
+          <img id="shot1" class="shot" src="Screenshot_20250913_130934.jpg" alt="first chat screenshot">
+          <div class="caption">I’ll never forget that “Hey, I know you”… that Small window how it changed everything it wasn't coincidence 💗</div>
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div id="slide2" class="slide hidden">
+        <div>
+          <div class="title"><span class="typing" id="type2"></span><span class="cursor" id="cur2"></span></div>
+          <div style="height:18px"></div>
+          <img id="shot2" class="shot" src="IMG_20250912_150541.jpg" alt="proposal screenshot">
+          <div class="caption">That’s the moment my forever began with you ✨</div>
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div id="slide3" class="slide hidden">
+        <div class="heart-area">
+          <div class="flower-heart" id="flowerHeart"></div>
+          <div class="heart-center">
+            <div class="heart-name">Arfat ❤️ Nandini</div>
+            <div class="heart-sub">Forever</div>
+            <div class="timer" id="timer">0 Days 00 Hours 00 Minutes 00 Seconds</div>
+          </div>
+          <div class="final-msg"><span id="finalText"></span><span class="cursor" id="cur3"></span></div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="nextBtn" class="btn">Next ❤️</button>
+      </div>
+    </div>
+  </div>
+
+<script>
+function typeText(el,text,speed=30,cb){let i=0;el.innerText="";const id=setInterval(()=>{el.innerText+=text[i++]||"";if(i>text.length){clearInterval(id);if(cb)cb();}},speed);}
+
+let slideIndex=1,totalSlides=3;const nextBtn=document.getElementById('nextBtn');
+function showSlide(n){for(let i=1;i<=totalSlides;i++){const s=document.getElementById('slide'+i);if(i===n){s.classList.add('visible');s.classList.remove('hidden');}else{s.classList.remove('visible');s.classList.add('hidden');}}}
+nextBtn.addEventListener('click',()=>{if(slideIndex<totalSlides)slideIndex++;else slideIndex=totalSlides;showSlide(slideIndex);if(slideIndex===2)startType2();if(slideIndex===3)startSlide3();});
+
+const type1=document.getElementById('type1');const type2el=document.getElementById('type2');const finalTextEl=document.getElementById('finalText');
+function startType1(){typeText(type1,'Do you remember the day we met?',35,()=>{document.getElementById('cur1').style.display='none';});}
+function startType2(){document.getElementById('cur2').style.display='inline-block';typeText(type2el,'And how could we ever forget this day... full of different emotions, aaj iss din ke baare mai bakar bakar karte ❤️',30,()=>{document.getElementById('cur2').style.display='none';});}
+
+// floating hearts bottom → top
+function spawnFloatingHeart(){const heart=document.createElement('div');heart.className='float-heart';heart.innerText='💖';heart.style.left=(10+Math.random()*80)+'%';heart.style.bottom='-10vh';heart.style.animationDuration=(4+Math.random()*6)+'s';document.body.appendChild(heart);setTimeout(()=>heart.remove(),11000);}setInterval(spawnFloatingHeart,600);
+
+// flowers top → bottom
+function spawnFlower(){const f=document.createElement('div');f.className='flower';f.innerText='🌸';f.style.left=(Math.random()*100)+'vw';f.style.top='-10vh';f.style.animationDuration=(5+Math.random()*6)+'s';document.body.appendChild(f);setTimeout(()=>f.remove(),7000);}setInterval(spawnFlower,800);
+
+// Heart path
+function heartXY(t,scale=1){const x=16*Math.pow(Math.sin(t),3);const y=13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t);return{x:x*scale,y:-y*scale};}
+const heartContainer=document.getElementById('flowerHeart');let flowerDots=[];
+function prepareFlowerHeart(){heartContainer.innerHTML='';flowerDots=[];const dotCount=160;const rect=heartContainer.getBoundingClientRect();const w=rect.width,h=rect.height;const scale=Math.min(w/40,h/40)*1.6;for(let i=0;i<dotCount;i++){const t=(i/dotCount)*Math.PI*2;const p=heartXY(t,scale);const cx=w/2+p.x,cy=h/2+p.y*0.95;const span=document.createElement('img');span.className='flower-dot';span.src=(i%2===0?'pngtree-pink-rose-decoration-png-image_10013932.png':'pngtree-white-lily-flower-png-image_10012327.png');span.style.left=cx+'px';span.style.top=cy+'px';heartContainer.appendChild(span);flowerDots.push(span);}}
+function traceHeart(){let i=0;function step(){if(i<flowerDots.length){flowerDots[i].style.opacity=1;i++;setTimeout(step,12);} }step();}
+window.addEventListener('resize',()=>{if(slideIndex===3)prepareFlowerHeart();});
+
+// Timer
+const startDate=new Date(2024,8,14,0,45,0);
+function updateTimer(){const now=new Date();let diff=now-startDate;if(diff<0)diff=0;const days=Math.floor(diff/86400000);const hours=Math.floor((diff/3600000)%24);const minutes=Math.floor((diff/60000)%60);const seconds=Math.floor((diff/1000)%60);const pad=n=>String(n).padStart(2,'0');document.getElementById('timer').innerText=`${days} Days ${pad(hours)} Hours ${pad(minutes)} Minutes ${pad(seconds)} Seconds`;}
+setInterval(updateTimer,1000);updateTimer();
+
+// Final message typing
+const finalMessage=`Happy anniversary, my love 💖
+Thank you for being you, for being mine, for being us.
+I’ll never forget the day we met, from a simple “Hey, I know you” —
+since then, every second with you has been a memory,
+every day with you has been a blessing,
+and every year with you is my forever. 🌸
+
+And now… I dream of taking this love to our next chapter —
+a life together, building our forever. ❤️`;
+function startSlide3(){prepareFlowerHeart();setTimeout(()=>traceHeart(),350);let i=0;const speed=20;function tick(){finalTextEl.innerText=finalMessage.slice(0,i);i++;if(i<=finalMessage.length)setTimeout(tick,speed);else document.getElementById('cur3').style.display='none';}setTimeout(tick,900);}
+window.addEventListener('load',()=>{startType1();document.getElementById('cur2').style.display='none';document.getElementById('cur3').style.display='none';});
+</script>
+</body>
+</html>
